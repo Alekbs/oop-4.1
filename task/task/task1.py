@@ -9,16 +9,18 @@ class Pair:
         self.first = first
         self.second = second
 
-    #Возведение в степень
+    # Возведение в степень
     def power(self):
         result = self.first**self.second
         return result
 
-    #Вывод на экран
+    # Вывод на экран
     def display(self):
-        print(f"Pair: first = {self.first}, second = {self.second}")
+        print(
+            f"Pair: first = {self.first}, second = {self.second}, result = {self.power()}"
+        )
 
-    #Ввод значений с клавиатуры
+    # Ввод значений с клавиатуры
     def read():
         try:
             first = float(input("Enter the first number: "))
@@ -28,14 +30,13 @@ class Pair:
             print("Invalid input")
             return None
 
-#Создание объекта Pair
+
+# Создание объекта Pair
 def make_pair(first, second):
     return Pair(first, second)
 
 
 if __name__ == "__main__":
     pair = Pair.read()
-    pair.display()
-    pair.power()
     pair.display()
     make_pair(3.0, 4.0).display()
