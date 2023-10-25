@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 class Rational:
-    
     def __init__(self, a=0, b=1):
         a = int(a)
         b = int(b)
@@ -12,109 +12,110 @@ class Rational:
         self.__denominator = abs(b)
         self.__reduce()
 
-# Сокращение дроби
-def __reduce(self):
-    # Функция для нахождения наибольшего общего делителя
-    def gcd(a, b):
-        if a == 0:
-            return b
-        elif b == 0:
-            return a
-        elif a >= b:
-            return gcd(a % b, b)
+    # Сокращение дроби
+    def __reduce(self):
+        # Функция для нахождения наибольшего общего делителя
+        def gcd(a, b):
+            if a == 0:
+                return b
+            elif b == 0:
+                return a
+            elif a >= b:
+                return gcd(a % b, b)
+            else:
+                return gcd(a, b % a)
+
+        c = gcd(self.__numerator, self.__denominator)
+        self.__numerator //= c
+        self.__denominator //= c
+
+    @property
+    def numerator(self):
+        return self.__numerator
+
+    @property
+    def denominator(self):
+        return self.__denominator
+
+    # Прочитать значение дроби с клавиатуры. Дробь вводится
+    # как a/b.
+    def read(self, prompt=None):
+        line = input() if prompt is None else input(prompt)
+        parts = list(map(int, line.split("/", maxsplit=1)))
+        if parts[1] == 0:
+            raise ValueError()
+        self.__numerator = abs(parts[0])
+        self.__denominator = abs(parts[1])
+        self.__reduce()
+
+    # Вывести дробь на экран
+    def display(self):
+        print(f"{self.__numerator}/{self.__denominator}")
+
+    # Сложение обыкновенных дробей.
+    def add(self, rhs):
+        if isinstance(rhs, Rational):
+            a = self.numerator * rhs.denominator + self.denominator * rhs.numerator
+            b = self.denominator * rhs.denominator
+            return Rational(a, b)
         else:
-            return gcd(a, b % a)
-    c = gcd(self.__numerator, self.__denominator)
-    self.__numerator //= c
-    self.__denominator //= c
-@property
-def numerator(self):
-    return self.__numerator
+            raise ValueError()
 
-@property
-def denominator(self):
-    return self.__denominator
+    # Вычитание обыкновенных дробей.
+    def sub(self, rhs):
+        if isinstance(rhs, Rational):
+            a = self.numerator * rhs.denominator - self.denominator * rhs.numerator
+            b = self.denominator * rhs.denominator
+            return Rational(a, b)
+        else:
+            raise ValueError()
 
-# Прочитать значение дроби с клавиатуры. Дробь вводится
-# как a/b.
-def read(self, prompt=None):
-    line = input() if prompt is None else input(prompt)
-    parts = list(map(int, line.split('/', maxsplit=1)))
-    if parts[1] == 0:
-        raise ValueError()
-    self.__numerator = abs(parts[0])
-    self.__denominator = abs(parts[1])
-    self.__reduce()
+    # Умножение обыкновенных дробей.
+    def mul(self, rhs):
+        if isinstance(rhs, Rational):
+            a = self.numerator * rhs.numerator
+            b = self.denominator * rhs.denominator
+            return Rational(a, b)
+        else:
+            raise ValueError()
 
-# Вывести дробь на экран
-def display(self):
-    print(f"{self.__numerator}/{self.__denominator}")
+    # Деление обыкновенных дробей.
+    def div(self, rhs):
+        if isinstance(rhs, Rational):
+            a = self.numerator * rhs.denominator
+            b = self.denominator * rhs.numerator
+            return Rational(a, b)
+        else:
+            raise ValueError()
 
-# Сложение обыкновенных дробей.
-def add(self, rhs):
-    if isinstance(rhs, Rational):
-        a = self.numerator * rhs.denominator + \
-        self.denominator * rhs.numerator
-        b = self.denominator * rhs.denominator
-        return Rational(a, b)
-    else:
-        raise ValueError()
-    
-# Вычитание обыкновенных дробей.
-def sub(self, rhs):
-    if isinstance(rhs, Rational):
-        a = self.numerator * rhs.denominator - \
-        self.denominator * rhs.numerator
-        b = self.denominator * rhs.denominator
-        return Rational(a, b)
-    else:
-        raise ValueError()
+    # Отношение обыкновенных дробей.
+    def equals(self, rhs):
+        if isinstance(rhs, Rational):
+            return (self.numerator == rhs.numerator) and (
+                self.denominator == rhs.denominator
+            )
 
-# Умножение обыкновенных дробей.
-def mul(self, rhs):
-    if isinstance(rhs, Rational):
-        a = self.numerator * rhs.numerator
-        b = self.denominator * rhs.denominator
-        return Rational(a, b)
-    else:
-        raise ValueError()
-    
-# Деление обыкновенных дробей.
-def div(self, rhs):
-    if isinstance(rhs, Rational):
-        a = self.numerator * rhs.denominator
-        b = self.denominator * rhs.numerator
-        return Rational(a, b)
-    else:
-        raise ValueError()
-# Отношение обыкновенных дробей.
-def equals(self, rhs):
-    if isinstance(rhs, Rational):
-        return (self.numerator == rhs.numerator) and \
-        (self.denominator == rhs.denominator)
+        else:
+            return False
 
-    else:
-        return False
-    
+    def greater(self, rhs):
+        if isinstance(rhs, Rational):
+            v1 = self.numerator / self.denominator
+            v2 = rhs.numerator / rhs.denominator
+            return v1 > v2
+        else:
+            return False
 
-def greater(self, rhs):
-    if isinstance(rhs, Rational):
-        v1 = self.numerator / self.denominator
-        v2 = rhs.numerator / rhs.denominator
-        return v1 > v2
-    else:
-        return False
+    def less(self, rhs):
+        if isinstance(rhs, Rational):
+            v1 = self.numerator / self.denominator
+            v2 = rhs.numerator / rhs.denominator
+            return v1 < v2
+        else:
+            return False
 
 
-def less(self, rhs):
-    if isinstance(rhs, Rational):
-        v1 = self.numerator / self.denominator
-        v2 = rhs.numerator / rhs.denominator
-        return v1 < v2
-    else:
-        return False
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     r1 = Rational(3, 4)
     r1.display()
     r2 = Rational()
